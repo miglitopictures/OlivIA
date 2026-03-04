@@ -12,7 +12,7 @@ async function handleAction(action, text) {
 
     const response = await OliviaAPI.askOlivia(action, text);
     
-    ui.updateStatus(""); // Clear status
+    // ui.updateStatus("");
     if (response.status === "success") {
         ui.displayResult(response.message);
     } else {

@@ -1,22 +1,24 @@
-/* olivia-styles.css */
+:root{
+    --ol-white: #FFFFFF;
+    --ol-lighter-purple: #E0E0FF;
+    --ol-light-purple: #F9F9FF;
+    --ol-purple: #A29BFE;
+    --ol-deep-purple: #6C5CE7;
+}
 
 .olivia-over {
     position: fixed;
     z-index: 2147483647 !important;
     top: 40px; /* Leave room for the mascot popping out the top */
     left: 40px;
-    width: 360px;
-    height: 500px;
+    width: 300px;
     display: flex;
     flex-direction: column;
-    /* background: #ffffff;
-    border: 4px solid #A29BFE; */
     border-radius: 30px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: visible; /* Allows mascot to pop out */
     transition: box-shadow 0.3s;
-
     animation: olivia-slide-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+
 }
 
 @keyframes olivia-slide-up {
@@ -35,60 +37,60 @@
 } */
 
 #olivia-header {
-    background: #A29BFE;
-    color: white;
-    padding: 20px 20px;
+    background: var(--ol-purple);
+    color: var(--ol-white);
+    padding: 10px 15px;
     border-radius: 24px 24px 0 0;
     /* cursor: move; */
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
+
+    /* border: solid 1px; */
 }
 
 #olivia-mascot {
-    height: 128px;
-    width: 128px;
+    /* height: 64px; */
+    width: 25%;
     pointer-events: none; /* Mouse goes through mascot to the header */
+    margin-bottom: 10px;
+
+    /* border: solid 1px; */
 }
 
 .olivia-title {
-    margin-left: 85px; /* Push text to the right of the mascot */
     font-weight: 800;
     font-size: 16px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     letter-spacing: 1px;
+    /* border: solid 1px; */
 }
 
 #olivia-body {
     flex: 1;
-    background: #F9F9FF; /* Very light cool background */
+    background: var(--ol-light-purple);
     border-radius: 0 0 26px 26px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
     padding: 15px;
 }
 
 #olivia-results {
-    background: white;
+    background: var(--ol-white);
     border-radius: 20px;
     padding: 20px;
     color: #2D3436;
     font-size: 16px; /* Larger font for better readability */
     line-height: 1.6;
-    border: 2px solid #E0E0FF;
+    border: 2px solid var(--ol-lighter-purple);
     overflow-y: auto;
-}
-
-/* Friendly Result Bubble */
-.olivia-message {
-    border-left: 5px solid #6C5CE7;
-    padding-left: 15px;
 }
 
 #olivia-status {
     font-weight: bold;
-    color: #6C5CE7;
+    color: var(--ol-deep-purple);
     margin-bottom: 5px;
     height: 20px;
 }
@@ -105,4 +107,18 @@
     cursor: default;
     opacity: 1;
     color: #ff4d4d;
+}
+
+#btn-resumir {
+    height: 30px;
+    background-color: var(--ol-deep-purple);
+    color: var(--ol-light-purple);
+    border: 2px solid var(--ol-lighter-purple);
+    border-radius: 15px;
+    transition: background-color 1s ease;
+}
+
+#btn-resumir:hover {
+    background-color: var(--ol-purple);
+    cursor: pointer;
 }

@@ -22,9 +22,7 @@ class OliviaUI {
         this.container.innerHTML = `
             <img src="${mascotUrl}" id="olivia-mascot" />
             <div id="olivia-header">
-                <div class="header-left">
-                    <span class="olivia-title">OlivIA</span>
-                </div>
+                <span class="olivia-title">OlivIA</span>
                 <span id="olivia-close">&times;</span>
             </div>
             <div id="olivia-body">
@@ -32,7 +30,7 @@ class OliviaUI {
                 <div id="olivia-results">
                     Hey there! I'm ready to help you learn. Select some text and I'll explain it!
                 </div>
-                <button id="btn-resumir">Resumir esta página</button>
+                <button id="btn-resumir">Resumir página</button>
             </div>
         `;
 
