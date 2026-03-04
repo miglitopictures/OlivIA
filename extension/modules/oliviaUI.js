@@ -81,7 +81,7 @@ class OliviaUI {
 
         // BOTAO: Fechar OlivIA (x)
         const closeBtn = this.container.querySelector('#olivia-close');
-        closeBtn.onclick = function() {
+        closeBtn.onclick = () => {
             this.container.remove();
         };
     }

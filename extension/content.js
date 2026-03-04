@@ -43,3 +43,9 @@ window.addEventListener('olivia-summarize-page', () => {
     handleAction('simplify', cleanText);
 });
 
+// --- Eventos Internos (Acoes da Interface da Olivia) [oliviaUI.js] ---
+window.addEventListener('btn-close', () => {
+    const cleanText = Scraper.getCleanPageText();
+    handleAction('simplify', cleanText);
+});
+
