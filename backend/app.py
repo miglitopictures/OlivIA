@@ -1,4 +1,5 @@
 import os
+import logging
 from dotenv import load_dotenv
 from google import genai
 from flask import Flask, jsonify, request
@@ -13,6 +14,8 @@ load_dotenv() # Pega as variavei sensívei do arquivo .env
 geminiKey = os.getenv("GEMINI_API_KEY") 
 client = genai.Client(api_key=geminiKey) # Inicialização do Cliente Gemini
 
+#configurando o logging
+logging.basicConfig(level = logging.INFO)
 #-------
 
 def criar_prompt(texto, max_frases = 5):
@@ -28,53 +31,61 @@ def criar_prompt(texto, max_frases = 5):
         f"2. Use no máximo {max_frases} frases curtas.\n"
         f"3. Não use negrito, itálico, asteriscos ou qualquer formatação markdown.\n"
         f"4. Foque apenas na ideia principal e use palavras simples.\n\n"
-        f"Texto para simplificar: {texto}")
+        f"Texto para simplificar: {texto}"
+        )
 
 
 @app.route('/')
 def home():
-    return "Servidor da Olívia Online! 🚀"
+    return "Servidor da Olívia Online! 🚀", 200
 
 
 @app.route('/simplify', methods=['POST']) # Aceita apenas POST
 def simplify():
     dados = request.get_json()
-    texto_recebido = dados.get('text', '')
-    
-    print(f"Recebi {len(texto_recebido)} caracteres para processar!")
+    texto_recebido = dados.get('text', '').strip()
 
-    response = client.models.generate_content(
+    if not texto_recebido:
+        return jsonify({"error": "Ops! Você esqueceu de enviar o texto."}), 400
+    
+    logging.info(f"Simplificando: {len(texto_recebido)} caracteres")
+
+    try:
+        response = client.models.generate_content(
             model = "gemini-2.5-flash", 
             contents = criar_prompt(texto_recebido, max_frases = 5)
     )
-
-    print(response.text)
-
-    return jsonify({
-        "message": response.text,
-        "status": "processado"
-    }), 200
-
-
+        
+        texto_limpo = response.text.strip()
+        return jsonify({"message": texto_limpo, "status": "sucesso"}), 200
+    
+    except Exception as e:
+        logging.error(f'Erro no Gemini: {e}')
+        return jsonify({"error": "A OlivIA se distraiu um pouco. Tente novamente!"}), 500
+    
 @app.route('/explain', methods=['POST']) # Aceita apenas POST
 def explain():
-    dados = request.get_json()
-    texto_recebido = dados.get('text', '')
+    dados = request.get_json() or {}
+    texto_recebido = dados.get('text', '').strip()
 
-    print(f"Recebi {len(texto_recebido)} caracteres para processar!")
+    if not texto_recebido:
+        return jsonify({"error": "Texto vazio"}), 400
+    
+    logging.info(f"Recebi {len(texto_recebido)} caracteres para processar!")
 
-    response = client.models.generate_content(
+    try:
+        response = client.models.generate_content(
             model = "gemini-2.5-flash", 
             contents = criar_prompt(texto_recebido, max_frases = 3)
     )
+    
+        texto_limpo = response.text.strip()
+        return jsonify({"message": texto_limpo, "status": "sucesso"}), 200
 
-    print(response.text)
-
-    return jsonify({
-        "message": response.text,
-        "status": "processado"
-    }), 200
-
+    except Exception as e:
+        logging.error(f"Erro no Gemini: {e}")
+        return jsonify({"error": "A OlívIA se distraiu um pouco. Tente novamente!"}), 500
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
+    
