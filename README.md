@@ -25,6 +25,9 @@ A **OlívIA** processa conteúdos web complexos e devolve versões mais **simple
 --/assets      # Ícones, Imagens...
 --/css         # Estilização da interface (styles.css)
 --/modules     # Lógica de negócio (API, Scraper, UI)
+/frontend    # Interface web para demonstrar a OlivIA (simplificar e explicar)
+--/css         # Estilos da página
+--/js          # Módulos JavaScript (config, api, app)
 ```
 
 ---
@@ -97,10 +100,12 @@ A **OlívIA** processa conteúdos web complexos e devolve versões mais **simple
 
 ## 🏁 Como testar
 
-1. Inicie o backend: `python app.py`.
-2. No Chrome, acesse `chrome://extensions/`.
-3. Ative o **Modo do Desenvolvedor**.
-4. Clique em **Carregar sem compactação** e selecione a pasta `/extension`.
-5. Abra qualquer site e clique no ícone da OlívIA ou use o botão direito em um texto selecionado.
+1. Inicie o backend: `python app.py` (na pasta `/backend`).
+2. **Frontend web**: acesse [http://localhost:5000/app](http://localhost:5000/app) para usar a interface de demonstração (simplificar e explicar textos).
+3. **Extensão Chrome**:
+   - Acesse `chrome://extensions/`
+   - Ative o **Modo do Desenvolvedor**
+   - Clique em **Carregar sem compactação** e selecione a pasta `/extension`
+   - Abra qualquer site e clique no ícone da OlivIA ou use o botão direito em um texto selecionado
 
 ---
