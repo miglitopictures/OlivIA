@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OlivIA — Sua azeitoninha que resume e explica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/app/css/styles.css">
+</head>
+<body>
+    <div class="layout">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon" aria-hidden="true">●</span>
+                    <h1>OlivIA</h1>
+                </div>
+                <p class="tagline">Sua azeitoninha cativante que resume e explica da melhor forma</p>
+            </div>
+        </header>
+
+        <main class="main">
+            <section class="hero">
+                <p class="hero-text">
+                    Cole um texto e escolha se quer <strong>simplificar</strong> ou <strong>explicar</strong>. 
+                    A OlivIA foi feita para auxiliar no entendimento de pessoas com TEA e TDAH.
+                </p>
+            </section>
+
+            <section class="actions">
+                <div class="card card-input">
+                    <h2>Texto de entrada</h2>
+                    <textarea 
+                        id="input-text" 
+                        placeholder="Cole aqui o texto que você quer simplificar ou explicar..."
+                        rows="8"
+                        maxlength="12000"
+                    ></textarea>
+                    <p class="char-count"><span id="char-count">0</span> / 12.000 caracteres</p>
+                    
+                    <div class="buttons">
+                        <button type="button" id="btn-simplify" class="btn btn-primary">Simplificar</button>
+                        <button type="button" id="btn-explain" class="btn btn-secondary">Explicar</button>
+                    </div>
+                </div>
+
+                <div class="card card-output">
+                    <h2>Resultado da OlivIA</h2>
+                    <div id="output-area" class="output-area">
+                        <p class="output-placeholder">O resultado aparecerá aqui.</p>
+                    </div>
+                    <div id="output-loading" class="output-loading" hidden>
+                        <div class="spinner"></div>
+                        <p>OlivIA está pensando...</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <h2>Como funciona</h2>
+                <div class="features-grid">
+                    <article class="feature">
+                        <span class="feature-dot"></span>
+                        <h3>Simplificar</h3>
+                        <p>Transforma textos longos em até 5 frases mais fáceis de entender.</p>
+                    </article>
+                    <article class="feature">
+                        <span class="feature-dot"></span>
+                        <h3>Explicar</h3>
+                        <p>Explica o que você selecionou em até 3 frases simples.</p>
+                    </article>
+                    <article class="feature">
+                        <span class="feature-dot"></span>
+                        <h3>Extensão Chrome</h3>
+                        <p>Use direto em qualquer página da web com a extensão.</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>OlivIA — Auxiliando o entendimento de pessoas com TDAH e TEA</p>
+        </footer>
+    </div>
+
+    <script type="module" src="/app/js/app.js"></script>
+</body>
+</html>
