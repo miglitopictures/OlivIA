@@ -9,9 +9,9 @@ CORS(app)
 
 load_dotenv() 
 
-gemini_key = "COLOQUE O SEU GEMINI_KEY AQUI"
+geminiKey = os.getenv("GEMINI_API_KEY")
 
-client = genai.Client(api_key=gemini_key)
+client = genai.Client(api_key=geminiKey)
 
 @app.route('/')
 def home():
@@ -27,7 +27,7 @@ def simplify():
         texto_recebido = dados.get('text', '')
 
         response = client.models.generate_content(
-            model="gemini-2.0-flash", 
+            model="gemini-2.5-flash", 
             contents=f"Você é OlívIA, assistente de estudos para crianças de 10 a 13 anos com TEA e TDAH. Resuma de forma muito simples em até 5 frases, sem markdown: {texto_recebido}"
         )
 
@@ -45,7 +45,7 @@ def explain():
     texto_recebido = dados.get('text', '')
 
     response = client.models.generate_content(
-            model="gemini-2.0-flash", 
+            model="gemini-2.5-flash", 
             contents=f"Você é OlívIA, uma assistente de estudos para crianças com TEA e TDAH. Explique de maneira simplificada em até 3 frases: {texto_recebido}"
         )
 

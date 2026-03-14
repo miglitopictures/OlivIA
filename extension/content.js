@@ -11,6 +11,7 @@ async function handleAction(action, text) {
     ui.updateStatus(action === 'simplify' ? "Lendo a página..." : "Pensando...");
 
     try {
+        console.log(text.length);
         const response = await OliviaAPI.askOlivia(action, text);
         
         ui.updateStatus("");
