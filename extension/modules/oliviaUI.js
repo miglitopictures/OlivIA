@@ -1,38 +1,36 @@
-/**
- * @fileoverview Gerencia a Interface de Usuário (UI) da OlívIA.
- * Responsável pela criação, injeção e atualização dos elementos visuais na página.
- */
 class OliviaUI {
     constructor() {
         this.container = null;
     }
 
-    /**
-     * Insere a interface da olivIA no DOM.
-     */
     inject() {
         if (document.getElementById('olivia-root')) return;
 
         this.container = document.createElement('div');
         this.container.id = 'olivia-root';
-        this.container.className = 'olivia-over'; // Uses your manifest CSS
+        this.container.className = 'olivia-over';
         
         const mascotUrl = chrome.runtime.getURL("assets/olivia_icon_128.png");
 
         this.container.innerHTML = `
             <img src="${mascotUrl}" id="olivia-mascot" />
             <div id="olivia-header">
-                <div class="header-left">
-                    <span class="olivia-title">OlivIA</span>
+                <span class="olivia-title">OlivIA</span>
+                <div class="header-right">
+                    <button id="btn-historico">📂</button>
+                    <span id="olivia-close">&times;</span>
                 </div>
-                <span id="olivia-close">&times;</span>
             </div>
             <div id="olivia-body">
-                <div id="olivia-status">Status Message</div>
+                <div id="olivia-status"></div>
                 <div id="olivia-results">
-                    Hey there! I'm ready to help you learn. Select some text and I'll explain it!
+                    Olá! Selecione um texto ou clique abaixo para resumir a página.
                 </div>
-                <button id="btn-resumir">Resumir esta página</button>
+                <div id="olivia-actions">
+                    <button id="btn-resumir">Resumir página</button>
+                    <button id="btn-salvar" style="display: none;">💾 Salvar</button>
+                    <button id="btn-voltar" style="display: none;">Voltar</button>
+                </div>
             </div>
         `;
 
@@ -40,70 +38,80 @@ class OliviaUI {
         this.setupActions();
     }
 
-    /**
-     * Exibe a resposta da OlivIA com um efeito de digitação.
-     * Limpa a área de resultados anterior e revela o novo texto de forma gradual.
-     * * @param {string} text - O conteúdo processado (resumo ou explicação) vindo da API.
-     */
     displayResult(text) {
         const resultsArea = this.container.querySelector('#olivia-results');
-        if (resultsArea) {
-            
-            resultsArea.innerHTML = `<div class="olivia-answer"></div>`;
-            const target = resultsArea.querySelector('.olivia-answer');
+        const saveBtn = this.container.querySelector('#btn-salvar');
+        const resumirBtn = this.container.querySelector('#btn-resumir');
 
-            typewrite(target, text);
-        }
+        resultsArea.innerHTML = `<div class="olivia-answer"></div>`;
+        typewrite(resultsArea.querySelector('.olivia-answer'), text);
+        
+        saveBtn.style.display = 'inline-block';
+        resumirBtn.style.display = 'none';
     }
 
-    /**
-     * Atualiza a barra de status na interface da OlívIA.
-     * @param {string} message - O texto a ser exibido (ex: "Pensando...").
-     */
+    showHistory(items) {
+        const resultsArea = this.container.querySelector('#olivia-results');
+        const saveBtn = this.container.querySelector('#btn-salvar');
+        const resumirBtn = this.container.querySelector('#btn-resumir');
+        const voltarBtn = this.container.querySelector('#btn-voltar');
+
+        saveBtn.style.display = 'none';
+        resumirBtn.style.display = 'none';
+        voltarBtn.style.display = 'inline-block';
+
+        if (items.length === 0) {
+            resultsArea.innerHTML = "<p>Nenhum resumo salvo ainda.</p>";
+            return;
+        }
+
+        resultsArea.innerHTML = '<div class="olivia-history-list"></div>';
+        const list = resultsArea.querySelector('.olivia-history-list');
+
+        items.forEach(item => {
+            const el = document.createElement('div');
+            el.className = 'history-item';
+            el.innerHTML = `<small>${item.date}</small><p>${item.text.substring(0, 80)}...</p>`;
+            el.onclick = () => {
+                resultsArea.innerHTML = `<div class="olivia-answer">${item.text}</div>`;
+            };
+            list.appendChild(el);
+        });
+    }
+
     updateStatus(text) {
         const status = this.container?.querySelector('#olivia-status');
         if (status) status.innerText = text;
     }
 
-
-    /**
-     * Configura as ações da interface (ex. Botões).
-     */
     setupActions() {
-
-        // BOTAO: Resumir Página
-        const summarizeBtn = this.container.querySelector('#btn-resumir');
-        summarizeBtn.onclick = () => {
-            // We dispatch a custom event that content.js can hear
-            const event = new CustomEvent('olivia-summarize-page');
-            window.dispatchEvent(event);
+        this.container.querySelector('#btn-resumir').onclick = () => {
+            window.dispatchEvent(new CustomEvent('olivia-summarize-page'));
         };
 
-        // BOTAO: Fechar OlivIA (x)
-        const closeBtn = this.container.querySelector('#olivia-close');
-        closeBtn.onclick = function() {
-            this.container.remove();
+        this.container.querySelector('#btn-salvar').onclick = () => {
+            const text = this.container.querySelector('.olivia-answer').textContent;
+            window.dispatchEvent(new CustomEvent('olivia-save-content', { detail: { text } }));
+            this.container.querySelector('#btn-salvar').style.display = 'none';
+            this.container.querySelector('#btn-resumir').style.display = 'inline-block';
         };
+
+        this.container.querySelector('#btn-historico').onclick = () => {
+            window.dispatchEvent(new CustomEvent('olivia-load-history'));
+        };
+
+        this.container.querySelector('#btn-voltar').onclick = () => {
+            this.container.querySelector('#olivia-results').innerHTML = "Olá! Escolha uma nova ação.";
+            this.container.querySelector('#btn-voltar').style.display = 'none';
+            this.container.querySelector('#btn-resumir').style.display = 'inline-block';
+        };
+
+        this.container.querySelector('#olivia-close').onclick = () => this.container.remove();
     }
-
 }
 
-
-/**
- * Cria um efeito de digitação (typewriter) em um elemento HTML.
- * A função é recursiva e adiciona um caractere por vez ao elemento.
- * * @param {HTMLElement} element - O elemento do DOM onde o texto será inserido.
- * @param {string} text - O texto completo que será digitado.
- * @param {number} [delay=10] - O tempo de espera (em milissegundos) entre cada caractere.
- * @param {number} [i=0] - O índice do caractere atual (usado internamente pela recursão).
- */
 function typewrite(element, text, delay=10, i=0){
-    if (i === 0){
-        element.textContent = ''
-    }
-    element.textContent += text[i]
-    if (i === text.length - 1){
-        return
-    }
-    setTimeout(() => typewrite(element, text, delay, i+1),delay)
+    if (i === 0) element.textContent = '';
+    element.textContent += text[i];
+    if (i < text.length - 1) setTimeout(() => typewrite(element, text, delay, i+1), delay);
 }

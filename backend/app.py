@@ -5,61 +5,54 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-CORS(app) # O CORS permite que a extensão (Chrome) converse com este servidor (Python)
+load_dotenv() 
 
-load_dotenv() # Pega as variavei sensívei do arquivo .env
+gemini_key = "COLOQUE O SEU GEMINI_KEY AQUI"
 
-geminiKey = os.getenv("GEMINI_API_KEY") 
-client = genai.Client(api_key=geminiKey) # Inicialização do Cliente Gemini
-
-#-------
-
+client = genai.Client(api_key=gemini_key)
 
 @app.route('/')
 def home():
-    return "Servidor da Olívia Online! 🚀"
+    return "Servidor da Olívia Online!"
 
-
-@app.route('/simplify', methods=['POST']) # Aceita apenas POST
+@app.route('/simplify', methods=['POST'])
 def simplify():
-    dados = request.get_json()
-    texto_recebido = dados.get('text', '')
-    
-    print(f"Recebi {len(texto_recebido)} caracteres para processar!")
+    try:
+        dados = request.get_json()
+        if not dados or 'text' not in dados:
+            return jsonify({"status": "error", "message": "Texto não enviado"}), 400
+            
+        texto_recebido = dados.get('text', '')
 
-    response = client.models.generate_content(
-            model="gemini-2.5-flash", 
-            contents=f"Você é OlívIA uma assistente de estudos para criaças de 5 a 10 anos com TEA e TDAH, explique de maneira simplificada em ate 5 frases (não responda com markdown): {texto_recebido}"
+        response = client.models.generate_content(
+            model="gemini-2.0-flash", 
+            contents=f"Você é OlívIA, assistente de estudos para crianças de 10 a 13 anos com TEA e TDAH. Resuma de forma muito simples em até 5 frases, sem markdown: {texto_recebido}"
         )
 
-    print(response.text)
+        return jsonify({
+            "message": response.text,
+            "status": "success"
+        }), 200
+    except Exception as e:
+        print(f"Erro: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
-    return jsonify({
-        "message": response.text,
-        "status": "processado"
-    }), 200
-
-
-@app.route('/explain', methods=['POST']) # Aceita apenas POST
+@app.route('/explain', methods=['POST'])
 def explain():
     dados = request.get_json()
     texto_recebido = dados.get('text', '')
 
-    print(f"Recebi {len(texto_recebido)} caracteres para processar!")
-
     response = client.models.generate_content(
-            model="gemini-2.5-flash", 
-            contents=f"Você é OlívIA uma assistente de estudos para criaças de 5 a 10 anos com TEA e TDAH, explique de maneira simplificada em até 3 frases: {texto_recebido}"
+            model="gemini-2.0-flash", 
+            contents=f"Você é OlívIA, uma assistente de estudos para crianças com TEA e TDAH. Explique de maneira simplificada em até 3 frases: {texto_recebido}"
         )
-
-    print(response.text)
 
     return jsonify({
         "message": response.text,
         "status": "processado"
     }), 200
-
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
