@@ -1,72 +1,88 @@
-/* olivia-styles.css */
-
 .olivia-over {
     position: fixed;
     z-index: 2147483647 !important;
-    top: 40px; /* Leave room for the mascot popping out the top */
+    top: 80px;
     left: 40px;
     width: 360px;
     height: 500px;
     display: flex;
     flex-direction: column;
-    /* background: #ffffff;
-    border: 4px solid #A29BFE; */
     border-radius: 30px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: visible; /* Allows mascot to pop out */
+    overflow: visible;
     transition: box-shadow 0.3s;
-
+    background: #ffffff;
+    border: 4px solid #A29BFE;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     animation: olivia-slide-up 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @keyframes olivia-slide-up {
     from {
         opacity: 0;
-        transform: translateY(30px); /* Start 30px lower */
+        transform: translateY(30px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);    /* End at original position */
+        transform: translateY(0);
     }
 }
-
-/* .olivia-over:hover{
-    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
-} */
 
 #olivia-header {
     background: #A29BFE;
     color: white;
     padding: 20px 20px;
     border-radius: 24px 24px 0 0;
-    /* cursor: move; */
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
+    z-index: 10;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#btn-historico {
+    background: #6C5CE7;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 8px;
+    line-height: 1;
 }
 
 #olivia-mascot {
-    height: 128px;
-    width: 128px;
-    pointer-events: none; /* Mouse goes through mascot to the header */
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: -65px;
+    left: 10px;
+    z-index: 20;
+    pointer-events: none;
 }
 
 .olivia-title {
-    margin-left: 85px; /* Push text to the right of the mascot */
+    margin-left: 95px;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 #olivia-body {
     flex: 1;
-    background: #F9F9FF; /* Very light cool background */
+    background: #F9F9FF;
     border-radius: 0 0 26px 26px;
     display: flex;
     flex-direction: column;
     padding: 15px;
+    gap: 10px;
 }
 
 #olivia-results {
@@ -74,35 +90,90 @@
     border-radius: 20px;
     padding: 20px;
     color: #2D3436;
-    font-size: 16px; /* Larger font for better readability */
+    font-size: 16px;
     line-height: 1.6;
     border: 2px solid #E0E0FF;
     overflow-y: auto;
+    flex: 1;
 }
 
-/* Friendly Result Bubble */
-.olivia-message {
-    border-left: 5px solid #6C5CE7;
-    padding-left: 15px;
+.olivia-answer {
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+.olivia-history-list {
+    max-height: 100%;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.history-item {
+    cursor: pointer;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+}
+
+.history-item:hover {
+    background: #f0f0f0;
+}
+
+.history-item small {
+    color: #6C5CE7;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.history-item p {
+    margin: 5px 0 0 0;
+    font-size: 13px;
+    color: #444;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+#olivia-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#olivia-actions button {
+    background: #6C5CE7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#olivia-actions button:hover {
+    transform: scale(1.05);
 }
 
 #olivia-status {
     font-weight: bold;
     color: #6C5CE7;
-    margin-bottom: 5px;
-    height: 20px;
+    font-size: 12px;
+    height: 18px;
+    text-align: center;
 }
 
-/* Close Button */
 #olivia-close {
-    font-size: 20px;
+    font-size: 24px;
     line-height: 1;
     opacity: 0.7;
+    cursor: pointer;
     transition: opacity 0.2s;
 }
 
 #olivia-close:hover {
-    cursor: default;
     opacity: 1;
     color: #ff4d4d;
 }
