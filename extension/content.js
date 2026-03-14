@@ -1,45 +1,58 @@
 const ui = new OliviaUI();
 
-
-/**
- * Orquestra o fluxo de trabalho: Ativa a UI, chama a API e exibe o resultado.
- * @param {string} action - O tipo de processamento (ex: 'simplify', 'explain').
- * @param {string} text - O conteúdo bruto capturado pelo Scraper.
- */
 async function handleAction(action, text) {
-    ui.inject(); // Ensure UI is open
-    ui.updateStatus(action === 'simplify' ? "Simplificando..." : "Explicando \"" + text + "\"...");
-
-    const response = await OliviaAPI.askOlivia(action, text);
-    
-    ui.updateStatus(""); // Clear status
-    if (response.status === "success") {
-        ui.displayResult(response.message);
-    } else {
-        ui.displayResult("Puxa, a OlivIA se confundiu. Tente novamente!");
+    if (!text || text.trim().length < 5) {
+        ui.inject();
+        ui.displayResult("Selecione um texto um pouco maior para eu conseguir explicar!");
+        return;
     }
-    
-    return response;
+
+    ui.inject();
+    ui.updateStatus(action === 'simplify' ? "Lendo a página..." : "Pensando...");
+
+    try {
+        console.log(text.length);
+        console.log(action);
+        const response = await OliviaAPI.askOlivia(action, text);
+        
+        ui.updateStatus("");
+        if (response && response.status === "success") {
+            ui.displayResult(response.message);
+        } else {
+            ui.displayResult("Puxa, a OlivIA se confundiu! Tente novamente!");
+        }
+    } catch (err) {
+        ui.updateStatus("");
+        ui.displayResult("Erro ao conectar com o servidor.");
+    }
 }
 
-// --- Eventos Externos (Click no Icone / Menu Contextual) [background.js] ---
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-
     if (request.action === "explain_selection") {
-        handleAction('explain', request.text).then(sendResponse);
-        return true;
+        handleAction('explain', request.text);
+        sendResponse({ status: "processando" });
     }
-
     if (request.action === "show_olivia") {
         ui.inject();
-        sendResponse({ status: "Olivia Spawned" });
-        return true;
+        sendResponse({ status: "ok" });
     }
+    return true;
 });
 
-// --- Eventos Internos (Acoes da Interface da Olivia) [oliviaUI.js] ---
 window.addEventListener('olivia-summarize-page', () => {
-    const cleanText = Scraper.getCleanPageText();
-    handleAction('simplify', cleanText);
+    const pageText = Scraper.getCleanPageText();
+    handleAction('simplify', pageText);
 });
 
+window.addEventListener('olivia-save-content', async (e) => {
+    await OliviaDB.saveSummary(e.detail.text);
+    ui.updateStatus("Salvo com sucesso!");
+    setTimeout(() => ui.updateStatus(""), 2000);
+});
+
+window.addEventListener('olivia-load-history', async () => {
+    ui.updateStatus("Abrindo histórico...");
+    const history = await OliviaDB.getAllHistory();
+    ui.updateStatus("");
+    ui.showHistory(history);
+});
