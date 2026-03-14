@@ -12,6 +12,7 @@ async function handleAction(action, text) {
 
     try {
         console.log(text.length);
+        console.log(action);
         const response = await OliviaAPI.askOlivia(action, text);
         
         ui.updateStatus("");

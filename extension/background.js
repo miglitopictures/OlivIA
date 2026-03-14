@@ -1,3 +1,5 @@
+chrome.contextMenus.onClicked.addListener(genericOnClick);``
+
 chrome.action.onClicked.addListener((tab) => {
     
     if (tab.id) {
@@ -23,7 +25,7 @@ function genericOnClick(info, tab) {
 
 chrome.runtime.onInstalled.addListener(function () {
 
-    chrome.contextMenus.onClicked.addListener(genericOnClick);
+    
 
     chrome.contextMenus.create({
         id: 'olivia-explica',
