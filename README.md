@@ -155,7 +155,7 @@ Para contemplar essa funcionalidade base, utilizamos a API de extensões do Chro
 - João Felipe (Frontend)
 - Luis Vilas (Backend)
 - Lucas Valença (Frontend)
-- Miguel Duarte (Frontend, Backend)
+- Miguel Duarte (Frontend)
 - Pedro Feitosa (Database)
 - Rafael Dias (Backend)
 - Rodrigo Montenegro (Backend)
