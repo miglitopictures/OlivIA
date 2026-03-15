@@ -22,7 +22,8 @@ def prompt_simplificar(texto):
         f"1. Use linguagem clara, direta e sem metáforas.\n"
         f"2. Reduza ao essencial em no máximo 3 frases.\n"
         f"3. Não use negrito, itálico, asteriscos ou qualquer formatação markdown.\n"
-        f"4. Foque apenas na ideia principal e use palavras simples.\n\n"
+        f"4. Foque apenas na ideia principal e use palavras simples.\n"
+        f"5. Não se apresente no início da resposta.\n\n"
         f"Texto: {texto}"
         )
 
@@ -34,7 +35,8 @@ def prompt_explicar(texto):
         f"1. Use linguagem clara, direta e sem metáforas.\n"
         f"2. Explique 'o que é' de forma literal em no MÁXIMO 5 ou 6 frases curtas.\n"
         f"3. Não use negrito, itálico, asteriscos ou qualquer formatação markdown.\n"
-        f"4. Foque apenas na ideia principal e use palavras simples.\n\n"
+        f"4. Foque apenas na ideia principal e use palavras simples.\n"
+        f"5. Não se apresente no início da resposta.\n\n"
         f"Texto: {texto}"
         )
 
