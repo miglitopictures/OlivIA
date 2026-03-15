@@ -12,9 +12,9 @@ Extensão do Chrome para apoiar estudos de pessoas de 10 a 13 anos com TDAH e TE
 
 A **OlivIA** processa conteúdos web complexos e devolve versões mais **simples e diretas** do texto. É nessa funcionalidade central que focamos os esforços do nosso MVP.
 
-[![Watch the video](https://img.youtube.com/vi/H1Cgc1ZoZas/maxresdefault.jpg)](https://youtu.be/H1Cgc1ZoZas)
+[![Assista no youtube](https://img.youtube.com/vi/H1Cgc1ZoZas/maxresdefault.jpg)](https://youtu.be/H1Cgc1ZoZas)
 
-### [Watch this video on YouTube](https://youtu.be/H1Cgc1ZoZas)
+### [Assiste o vídeo pitch no youtube!](https://youtu.be/H1Cgc1ZoZas)
 
 ---
 
