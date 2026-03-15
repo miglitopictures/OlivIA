@@ -152,7 +152,14 @@ Para contemplar essa funcionalidade base, utilizamos a API de extensões do Chro
 
 
 ## Equipe
-Miguel Duarte
-Ruan
-Lucas Valença
-Rodrigo Montenegro
+- João Felipe (Frontend)
+- Luis Vilas (Backend)
+- Lucas Valença (Frontend)
+- Miguel Duarte (Frontend, Backend)
+- Pedro Feitosa (Database)
+- Rafael Dias (Backend)
+- Rodrigo Montenegro (Backend)
+- Ruan Vilas (Líder Técnico, Database, Frontend)
+
+## Disclaimer
+**ATENÇÃO!** Esse produto é puramente experimental e criado para um trabalho de faculdade. **Não foi validado por profissionais da pedagogia ou psicologia infantil.** É **extremamente não recomendado** o uso ou teste com crianças ou adolescentes.
