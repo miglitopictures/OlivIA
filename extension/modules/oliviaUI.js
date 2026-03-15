@@ -24,7 +24,7 @@ class OliviaUI {
             <div id="olivia-body">
                 <div id="olivia-status"></div>
                 <div id="olivia-results">
-                    Olá! Selecione um texto ou clique abaixo para resumir a página.
+                    Olá, me chamo OlivIA! Selecione um texto ou clique abaixo para resumir a página!
                 </div>
                 <div id="olivia-actions">
                     <button id="btn-resumir">Resumir página</button>
@@ -42,12 +42,14 @@ class OliviaUI {
         const resultsArea = this.container.querySelector('#olivia-results');
         const saveBtn = this.container.querySelector('#btn-salvar');
         const resumirBtn = this.container.querySelector('#btn-resumir');
+        const voltarBtn = this.container.querySelector('#btn-voltar');
 
         resultsArea.innerHTML = `<div class="olivia-answer"></div>`;
         typewrite(resultsArea.querySelector('.olivia-answer'), text);
         
         saveBtn.style.display = 'inline-block';
         resumirBtn.style.display = 'none';
+        voltarBtn.style.display = 'inline-block';
     }
 
     showHistory(items) {
@@ -93,7 +95,7 @@ class OliviaUI {
             const text = this.container.querySelector('.olivia-answer').textContent;
             window.dispatchEvent(new CustomEvent('olivia-save-content', { detail: { text } }));
             this.container.querySelector('#btn-salvar').style.display = 'none';
-            this.container.querySelector('#btn-resumir').style.display = 'inline-block';
+            // this.container.querySelector('#btn-resumir').style.display = 'inline-block';
         };
 
         this.container.querySelector('#btn-historico').onclick = () => {
@@ -101,8 +103,9 @@ class OliviaUI {
         };
 
         this.container.querySelector('#btn-voltar').onclick = () => {
-            this.container.querySelector('#olivia-results').innerHTML = "Olá! Escolha uma nova ação.";
+            this.container.querySelector('#olivia-results').innerHTML = "Selecione um texto ou clique abaixo para resumir a página!";
             this.container.querySelector('#btn-voltar').style.display = 'none';
+            this.container.querySelector('#btn-salvar').style.display = 'none';
             this.container.querySelector('#btn-resumir').style.display = 'inline-block';
         };
 
