@@ -8,13 +8,47 @@ Extensão do Chrome para apoiar estudos de pessoas de 10 a 13 anos com TDAH e TE
 
 ---
 
-## 📝 Visão Geral
+## MVP
 
-A **OlívIA** processa conteúdos web complexos e devolve versões mais **simples e diretas** do texto.
+A **OlivIA** processa conteúdos web complexos e devolve versões mais **simples e diretas** do texto. É nessa funcionalidade central que focamos os esforços do nosso MVP.
+
+[![Watch the video](https://img.youtube.com/vi/H1Cgc1ZoZas/maxresdefault.jpg)](https://youtu.be/H1Cgc1ZoZas)
+
+### [Watch this video on YouTube](https://youtu.be/H1Cgc1ZoZas)
 
 ---
 
-## 📂 Estrutura do projeto
+## História e Fluxo
+
+**"Como estudante com TDAH, quero poder resumir páginas complexas da web"**, essa é a história principal da OlivIA.
+
+Para contemplar essa funcionalidade base, utilizamos a API de extensões do Chrome para "sumonar" a assitente virtual em qualquer site, assim como Flask no backend para enviar os prompts personalizados para geração do resumo com o Gemini.
+
+### Fluxo Principal (Resumo de Página):
+
+1. **Entrada:** O estudante acessa uma página web com conteúdo extenso ou complexo.
+
+2. **Ação:** Clica no ícone da OlivIA na barra de extensões do Chrome e pede o resumo de página.
+
+3. **Processamento:** A extensão limpar o excesso de informações (anúncios/menus) e envia o texto puro para o backend Flask onde será criado o prompt.
+
+4. **IA:** O Gemini processa o texto e gera uma versão simplificada, com linguagem direta e tópicos.
+
+5. **Entrega:** A interface da OlivIA exibe um resumo amigável.
+
+6. **Persistência (Opcional):** O estudante clica em "Salvar" para armazenar o resumo no banco de dados local (IndexedDB) para revisar depois.
+
+### Fluxo Secundário (Dúvida Pontual):
+
+1. **Seleção:** O estudante encontra uma palavra difícil ou parágrafo confuso e faz o *highlight* (seleciona) do texto.
+
+2. **Ação:** Clica com o botão direito e seleciona "Olivia Explica" no menu de contexto.
+
+3. **Resposta:** Uma pequena janela flutuante aparece explicando apenas aquele trecho de forma didática.
+
+---
+
+## Estrutura do projeto
 
 > A estrutura modular permite que a equipe trabalhe em paralelo sem conflitos.
 > 
@@ -24,12 +58,12 @@ A **OlívIA** processa conteúdos web complexos e devolve versões mais **simple
 /extension   # Código do plugin Chrome
 --/assets      # Ícones, Imagens...
 --/css         # Estilização da interface (styles.css)
---/modules     # Lógica de negócio (API, Scraper, UI)
+--/modules     # Lógica de negócio (API, Scraper, UI, Database)
 ```
 
 ---
 
-## 📂 Dicionário de Arquivos
+## Dicionário de Arquivos
 
 ### Backend (Servidor)
 
@@ -49,6 +83,10 @@ A **OlívIA** processa conteúdos web complexos e devolve versões mais **simple
 - **`modules/api.js`**: Faz a ponte de comunicação entre a extensão e o seu servidor Python local.
 - **`modules/oliviaUI.js`**: Cria e controla todos os elementos visuais da OlívIA que aparecem para o usuário.
 
+### Database (CRUD)
+
+- **`modules/database.js`**: Este módulo lida com o CRUD dos resumos no IndexedDB (direto na memória do browser).
+
 ### Estilos e Assets
 
 - **`css/styles.css`**:  Define as cores, fontes e o visual amigável da interface.
@@ -56,9 +94,9 @@ A **OlívIA** processa conteúdos web complexos e devolve versões mais **simple
 
 ---
 
-## 🛠️ Configuração do ambiente
+## Configuração do ambiente
 
-- 1. Criar ambiente virtual (venv)
+1. Criar ambiente virtual (venv)
     
     Dentro da pasta `/backend`, execute:
     
@@ -66,7 +104,7 @@ A **OlívIA** processa conteúdos web complexos e devolve versões mais **simple
     python -m venv venv
     ```
     
-- 2. Ativar o venv
+2. Ativar o venv
     - **Windows**
     
     ```powershell
@@ -79,15 +117,22 @@ A **OlívIA** processa conteúdos web complexos e devolve versões mais **simple
     source venv/bin/activate
     ```
     
-- 3. Instalar dependências do `requirements.txt`
+3. Instalar dependências do `requirements.txt`
     
     ```bash
     pip install -r requirements.txt
     ```
+
+4. Configurar Chave da API no `.env`
+    1. Dentro da pasta `/backend`, crie um arquivo chamado `.env`
+    2. Visite o site [Google Ai Studio](https://aistudio.google.com/api-keys), gere e copie sua Chave da API do Gemini
+    2. no arquivo `.env`, declare a seguinte variável e salve o arquivo:
+    ```bash
+    GEMINI_API_KEY=ColeSuaChaveAQUI
+    ```
     
 
 <aside>
-⚠️
 
 **Atenção:** nunca suba a pasta `venv` ou o arquivo `.env` para o repositório. Use o `.gitignore`.
 
@@ -95,7 +140,7 @@ A **OlívIA** processa conteúdos web complexos e devolve versões mais **simple
 
 ---
 
-## 🏁 Como testar
+## Como testar
 
 1. Inicie o backend: `python app.py`.
 2. No Chrome, acesse `chrome://extensions/`.
@@ -104,3 +149,10 @@ A **OlívIA** processa conteúdos web complexos e devolve versões mais **simple
 5. Abra qualquer site e clique no ícone da OlívIA ou use o botão direito em um texto selecionado.
 
 ---
+
+
+## Equipe
+Miguel Duarte
+Ruan
+Lucas Valença
+Rodrigo Montenegro

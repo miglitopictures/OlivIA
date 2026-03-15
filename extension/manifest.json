@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "OlivIA",
-  "version": "0.01",
+  "version": "0.10",
   "description": "Transforma e simplifica conteúdos para auxiliar nos estudos.",
   "permissions": ["activeTab", "scripting", "storage","contextMenus"],
   "action": {
